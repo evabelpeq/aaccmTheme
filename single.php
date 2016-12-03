@@ -32,6 +32,15 @@ get_header();
 			the_post(); ?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class();?>>
 				<header class="entry-header">
+				<?php if( has_post_thumbnail()) { ?>
+                    <div class="post-image-content">
+                        <figure class="post-featured-image">
+                            <a href="<?php the_permalink();?>" title="<?php echo the_title_attribute('echo=0'); ?>">
+                            <?php the_post_thumbnail( 'full' ); ?>
+                            </a>
+                        </figure><!-- end.post-featured-image  -->
+                    </div> <!-- end.post-image-content -->
+                 <?php } ?>
 				<?php the_title( '<h1 itemprop="headline" class="entry-title single-title">', '</h1>' ); ?>
 					<?php 
 					$entry_format_meta_blog = $event_settings['event_entry_meta_blog'];
