@@ -255,6 +255,26 @@ function event_header_image_display(){
 }
 add_action('event_header_image','event_header_image_display');
 
+add_filter( 'private_title_format', 'yourprefix_private_title_format' );
+add_filter( 'protected_title_format', 'yourprefix_private_title_format' );
+function yourprefix_private_title_format( $format ) {
+    return '%s';
+}
+
+add_action( 'admin_menu', 'custom_menu_page_removing' );
+function custom_menu_page_removing() {
+    remove_menu_page( 'index.php' );                  //Dashboard
+    remove_menu_page( 'tools.php' );                  //Tools
+}
+
+/* Remove Contact Form 7 Links from dashboard menu items if not admin */
+if (!(current_user_can('administrator'))) {
+    function remove_wpcf7() {
+        remove_menu_page( 'wpcf7' );
+    }
+    add_action('admin_menu', 'remove_wpcf7');
+}
+
 /* Event Template */
 require get_template_directory() . '/inc/front-page/front-page-features.php';
 require get_template_directory() . '/inc/front-page/upcoming-event.php';
