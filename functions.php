@@ -275,6 +275,22 @@ if (!(current_user_can('administrator'))) {
     add_action('admin_menu', 'remove_wpcf7');
 }
 
+function add_login_logout_register_menu( $items, $args ) {
+   if ( $args->theme_location != 'primary' ) {
+      return $items;
+   }
+
+   if ( is_user_logged_in() ) {
+      $items .= '<li><a href="' . wp_logout_url() . '">' . __( 'Cerrar sesión' ) . '</a></li>';
+   } else {
+      $items .= '<li><a href="' . esc_url( get_permalink( get_page_by_title( 'Acceder' ) ) ). '">' . __( 'Acceder' ) . '</a></li>';
+   }
+
+   return $items;
+}
+
+add_filter( 'wp_nav_menu_items', 'add_login_logout_register_menu', 199, 2 );
+
 /* Event Template */
 require get_template_directory() . '/inc/front-page/front-page-features.php';
 require get_template_directory() . '/inc/front-page/upcoming-event.php';
